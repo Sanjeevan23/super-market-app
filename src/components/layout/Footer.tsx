@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Pressable,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import {
   HomeIcon,
@@ -10,16 +11,29 @@ import {
   OrderHistoryIcon,
   ProfileIcon,
 } from "../../assets/Icons";
-
-import HomeScreen from "../../screens/HomeScreen";
-import MyCartScreen from "../../screens/MyCartScreen";
-import OrderHistoryScreen from "../../screens/OrderHistoryScreen";
-import ProfileScreen from "../../screens/ProfileScreen";
+import { useRoute } from "@react-navigation/native";
+import HomeScreen from "../../screens/main/HomeScreen";
+import MyCartScreen from "../../screens/main/MyCartScreen";
+import OrderHistoryScreen from "../../screens/main/OrderHistoryScreen";
+import ProfileScreen from "../../screens/main/ProfileScreen";
 
 type TabKey = "home" | "cart" | "orders" | "profile";
 
+const { width: deviceWidth } = Dimensions.get("window");
+const base = deviceWidth / 440;
+
 const Footer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>("home");
+  const route = useRoute<any>();
+
+  const [activeTab, setActiveTab] = useState<TabKey>(
+    route.params?.tab ?? "home"
+  );
+
+  useEffect(() => {
+    if (route.params?.tab) {
+      setActiveTab(route.params.tab);
+    }
+  }, [route.params?.tab]);
 
   const renderScreen = () => {
     switch (activeTab) {
@@ -75,9 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderTopWidth: 1,
     borderTopColor: "#E5E7EB",
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingHorizontal:30,
+    paddingHorizontal: 30 * base,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -86,5 +98,6 @@ const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     justifyContent: "center",
+    paddingVertical: 20
   },
 });

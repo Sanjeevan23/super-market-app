@@ -83,9 +83,7 @@ const InputBox = forwardRef<TextInput, InputBoxProps>((props, ref) => {
 });
 
 const localStyles = StyleSheet.create({
-  wrapper: {
-    marginBottom: 12,
-  },
+  wrapper: {},
   label: {
     marginBottom: 8,
     fontSize: 14,

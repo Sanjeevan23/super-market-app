@@ -1,17 +1,12 @@
-// FlashScreen.tsx
-
 import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
   Image,
-  Dimensions,
   StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
-const { width: deviceWidth } = Dimensions.get("window");
-const base = deviceWidth / 440;
+import { base, Colors } from "../../theme/colors";
 
 const FlashScreen: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -28,7 +23,7 @@ const FlashScreen: React.FC = () => {
     <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
-        backgroundColor="#07C187"
+        backgroundColor={Colors.primary}
         translucent={false}
       />
 
@@ -46,7 +41,7 @@ export default FlashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#07C187",
+    backgroundColor: Colors.primary,
     alignItems: "center",
     justifyContent: "center",
   },

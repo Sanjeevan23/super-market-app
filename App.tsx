@@ -1,28 +1,27 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar, StyleSheet } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StackNavigator } from "./src/navigator/StackNavigator";
 import { LangProvider } from "./src/context/LangContext";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea} edges={["left", "right", "bottom"]}>
+      <View style={styles.container}>
         <LangProvider>
           <NavigationContainer>
             <StatusBar barStyle="light-content" backgroundColor="#07C187" />
             <StackNavigator />
           </NavigationContainer>
         </LangProvider>
-      </SafeAreaView>
+      </View>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#fff'
   },
 });

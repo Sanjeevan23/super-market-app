@@ -132,8 +132,8 @@ export const NotificationIcon = ({
 };
 
 export const GermanFlagIcon = ({
-  width = 24 * base,
-  height = 24,
+  width = 18 * base,
+  height = 18,
 }: IconProps) => {
   return (
     <Svg width={width} height={height} viewBox="0 0 24 24" fill="none">
@@ -534,6 +534,21 @@ export const AppleIcon = () => (
       d="M19.9367 1.875C18.5305 1.97051 16.8898 2.86582 15.9289 4.03477C15.057 5.09414 14.3398 6.66563 14.6211 8.18965H14.7336C16.2313 8.18965 17.7641 7.28789 18.6594 6.13242C19.5219 5.03262 20.1758 3.47402 19.9367 1.875Z"
       fill="black"
     />
+  </Svg>
+);
+
+export const PhoneIcon = ({ width = 20 * base, height = 20 * base, color = "#72828A" }: IconProps) => (
+  <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
+    <Path
+      d="M4.01675 8.64167C5.16675 10.9 7.10008 12.825 9.35841 13.9833L11.1001 12.2417C11.3167 12.025 11.6334 11.9583 11.9084 12.05C12.8001 12.3417 13.7584 12.5 14.7501 12.5C15.2084 12.5 15.5834 12.875 15.5834 13.3333V15.8333C15.5834 16.2917 15.2084 16.6667 14.7501 16.6667C8.15008 16.6667 2.91675 11.4333 2.91675 4.83333C2.91675 4.375 3.29175 4 3.75008 4H6.25841C6.71675 4 7.09175 4.375 7.09175 4.83333C7.09175 5.83333 7.25008 6.78333 7.54175 7.675C7.62508 7.95 7.56675 8.25833 7.34175 8.48333L5.60841 10.2167C5.60841 10.2167 4.01675 8.64167 4.01675 8.64167Z"
+      fill={color}
+    />
+  </Svg>
+);
+
+export const ChevronDownIcon = ({ width = 16 * base, height = 16 * base, color = "#72828A" }: IconProps) => (
+  <Svg width={width} height={height} viewBox="0 0 16 16" fill="none">
+    <Path d="M4 6L8 10L12 6" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 

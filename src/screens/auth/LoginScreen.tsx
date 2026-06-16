@@ -21,6 +21,7 @@ import InputBox from "../../components/layout/InputBox";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { findUserByIdentifier } from "../../data/user";
+import { Colors } from "../../theme/colors";
 
 const { width: deviceWidth } = Dimensions.get("window");
 const base = deviceWidth / 440;
@@ -163,10 +164,8 @@ const LoginScreen: React.FC = () => {
                             value={identifier}
                             setValue={handleIdentifierChange}
                             errorMessage={identifierError}
-                            borderColor="#F2F2F3"
-                            inputStyle={styles.inputText}
                         />
-
+                        <View  style={{marginTop:20 * base}}/>
                         <InputBox
                             label={t("password")}
                             placeholder={t("passwordPlaceholder")}
@@ -174,8 +173,7 @@ const LoginScreen: React.FC = () => {
                             setValue={handlePasswordChange}
                             secureTextEntry={!showPassword}
                             errorMessage={passwordError}
-                            borderColor="#F2F2F3"
-                            inputStyle={styles.inputText}
+                            
                             rightIcon={showPassword ? <EyeCloseIcon /> : <EyeOpenIcon />}
                             onRightIconPress={() => setShowPassword((prev) => !prev)}
                         />
@@ -194,9 +192,7 @@ const LoginScreen: React.FC = () => {
                             </Pressable>
                         </View>
 
-                        <Button text={t("continue")} containerStyle={{ marginTop: 100 }} onPress={handleContinue} />
-
-                        <View style={styles.spacer30} />
+                        <Button text={t("continue")} containerStyle={{ marginTop: 100 * base }} onPress={handleContinue} />
 
                         <View style={styles.dividerRow}>
                             <View style={styles.dividerLine} />
@@ -211,6 +207,12 @@ const LoginScreen: React.FC = () => {
                                 </Pressable>
                             ))}
                         </View>
+                        <View style={styles.signupRow}>
+                            <Text style={styles.signupText}>{t("dontHaveAccount")} </Text>
+                            <Pressable onPress={() => navigation.navigate("RegisterScreen")}>
+                                <Text style={styles.signupLink}>{t("signUpLink")}</Text>
+                            </Pressable>
+                        </View>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
@@ -223,7 +225,7 @@ export default LoginScreen;
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: "#07C187",
+        backgroundColor: Colors.primary,
     },
     flex: {
         flex: 1,
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontSize: 16,
         fontWeight: "600",
-        color: "#FFFFFF",
+        color: Colors.white,
         textAlign: "center",
     },
     subtitle: {
@@ -248,7 +250,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 14,
         fontWeight: "400",
-        color: "#FFFFFF",
+        color: Colors.white,
         textAlign: "center",
         lineHeight: 20,
     },
@@ -258,16 +260,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20 * base,
         paddingTop: 20,
         paddingBottom: 60,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: Colors.white,
         borderRadius: 30,
-        marginBottom:30,
-    },
-    inputText: {
-        fontSize: 14,
-        color: "#000000",
+        marginBottom: 30,
     },
     rowBetween: {
-        marginTop: 4,
+        marginTop: 10,
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
@@ -278,44 +276,57 @@ const styles = StyleSheet.create({
     },
     rememberText: {
         marginLeft: 8,
-        color: "#72828A",
+        color: Colors.subText,
         fontSize: 14,
         fontWeight: "400",
     },
     forgotText: {
-        color: "#07C187",
+        color: Colors.primary,
         fontSize: 14,
         fontWeight: "500",
-    },
-    spacer30: {
-        height: 30,
     },
     dividerRow: {
         flexDirection: "row",
         alignItems: "center",
+        marginTop: 30 * base,
     },
     dividerLine: {
         flex: 1,
         height: 1,
-        backgroundColor: "#72828A",
+        backgroundColor: Colors.subText,
     },
     dividerText: {
         marginHorizontal: 27 * base,
         fontSize: 14,
-        color: "#72828A",
+        color: Colors.subText,
         fontWeight: "400",
     },
     socialRow: {
-        marginTop: 20,
+        marginTop: 20 * base,
         flexDirection: "row",
         justifyContent: "center",
         gap: 30 * base,
     },
     socialButton: {
         borderRadius: 100,
-        backgroundColor: "#F2F2F3",
+        backgroundColor: Colors.boxBg,
         alignItems: "center",
         justifyContent: "center",
         padding: 10
+    },
+    signupRow: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 20,
+    },
+    signupText: {
+        fontSize: 16,
+        color: Colors.subText,
+        letterSpacing: 0.3
+    },
+    signupLink: {
+        fontSize: 16,
+        color: Colors.primary,
+        fontWeight: "500",
     },
 });

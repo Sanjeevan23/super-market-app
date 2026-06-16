@@ -23,9 +23,7 @@ import {
 import translations from "../../assets/translation.json";
 import { useLang, Lang, TranslationKey } from "../../context/LangContext";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-const { width: deviceWidth } = Dimensions.get("window");
-const base = deviceWidth / 440;
+import { base, Colors } from "../../theme/colors";
 
 type LanguageItem = {
     id: Lang;
@@ -75,15 +73,12 @@ const LanguageScreen: React.FC = () => {
 
     const handleSelect = async () => {
         await setLang(selected);
-        navigation.reset({
-            index: 0,
-            routes: [{ name: "LoginScreen" }],
-        });
+        navigation.navigate("ChooseScreen");
     };
 
     return (
         <View style={[styles.root, { paddingTop: insets.top }]}>
-            <StatusBar barStyle="light-content" backgroundColor="#07C187" translucent={false} />
+            <StatusBar barStyle="light-content" backgroundColor={Colors.primary} translucent={false} />
 
             <KeyboardAvoidingView
                 style={styles.flex}
@@ -152,7 +147,7 @@ export default LanguageScreen;
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: "#07C187",
+        backgroundColor: Colors.primary,
     },
     flex: {
         flex: 1,
@@ -172,7 +167,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20 * base,
         paddingTop: 20,
         paddingBottom: 30,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: Colors.white,
         borderRadius: 30,
     },
     languagesImage: {
@@ -184,13 +179,13 @@ const styles = StyleSheet.create({
         marginTop: 10,
         fontSize: 16,
         fontWeight: "500",
-        color: "#000000",
+        color: Colors.black,
         textAlign: "center",
     },
     subtitle: {
         fontSize: 14,
         fontWeight: "400",
-        color: "#72828A",
+        color: Colors.subText,
         textAlign: "center",
         lineHeight: 20,
     },
@@ -201,16 +196,16 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: "#FFFFFF",
+        borderColor: Colors.white,
         borderRadius: 12,
         paddingHorizontal: 12,
         paddingVertical: 12,
         marginBottom: 10,
         gap: 8,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: Colors.white,
     },
     itemActive: {
-        borderColor: "#07C187",
+        borderColor: Colors.primary,
     },
     radioWrap: {},
     textWrap: {
@@ -219,13 +214,13 @@ const styles = StyleSheet.create({
     itemTitle: {
         fontSize: 14,
         fontWeight: "400",
-        color: "#000000",
+        color: Colors.black,
     },
     itemSubtitle: {
         marginTop: 2,
         fontSize: 12,
         fontWeight: "400",
-        color: "#72828A",
+        color: Colors.subText,
         lineHeight: 14,
     },
     button: {

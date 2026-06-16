@@ -5,15 +5,21 @@ import SearchScreen from "../screens/more/SearchScreen";
 import Product_DetailScreen from "../screens/more/Product_DetailScreen";
 import PaymentDetailScreen from "../screens/more/PaymentDetailScreen";
 import InvoiceScreen from "../screens/more/InvoiceScreen";
+import CountryCodeScreen from "../screens/more/CountryCodeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
+import RegisterScreen from "../screens/auth/RegisterScreen";
+import VerificationScreen from "../screens/auth/VerificationScreen";
+import LocationScreen from "../screens/location/LocationScreen";
+import Manual_LocationScreen from "../screens/location/Manual_LocationScreen";
 import LanguageScreen from "../screens/startup/LanguageScreen";
 import FlashScreen from "../screens/startup/FlashScreen";
+import ChooseScreen from "../screens/startup/ChooseScreen";
 
 const Stack = createStackNavigator();
 
 export const StackNavigator: React.FC = () => {
   return (
-    <Stack.Navigator initialRouteName="FlashScreen">
+    <Stack.Navigator initialRouteName="LocationScreen">
       <Stack.Screen
         name="FlashScreen"
         component={FlashScreen}
@@ -25,8 +31,38 @@ export const StackNavigator: React.FC = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="ChooseScreen"
+        component={ChooseScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="VerificationScreen"
+        component={VerificationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LocationScreen"
+        component={LocationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Manual_LocationScreen"
+        component={Manual_LocationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CountryCodeScreen"
+        component={CountryCodeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen

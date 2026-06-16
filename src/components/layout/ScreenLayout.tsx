@@ -92,12 +92,14 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
                 <BackIcon />
               </Pressable>
             )}
-            <Text style={styles.innerTitle}>{title ?? ""}</Text>
+            <Text style={[styles.innerTitle, showBackIcon === false && styles.innerTitleCentered]}>
+              {title ?? ""}
+            </Text>
           </View>
         )}
       </View>
 
-      <View style={styles.whiteBody}>{children}</View>
+      <View style={[styles.whiteBody, { paddingBottom: insets.bottom }]}>{children}</View>
     </View>
   );
 };
@@ -120,6 +122,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     marginLeft: 16 * base,
+  },
+  innerTitleCentered: {
+    flex: 1,
+    marginLeft: 0,
+    textAlign: "center",
   },
   homeTopRow: {
     flexDirection: "row",

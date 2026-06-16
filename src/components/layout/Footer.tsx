@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   HomeIcon,
   MyCartIcon,
@@ -23,6 +24,7 @@ const { width: deviceWidth } = Dimensions.get("window");
 const base = deviceWidth / 440;
 
 const Footer: React.FC = () => {
+  const insets = useSafeAreaInsets();
   const route = useRoute<any>();
 
   const [activeTab, setActiveTab] = useState<TabKey>(
@@ -54,7 +56,7 @@ const Footer: React.FC = () => {
     <View style={styles.page}>
       <View style={styles.content}>{renderScreen()}</View>
 
-      <View style={styles.footerWrapper}>
+      <View style={[styles.footerWrapper, { paddingBottom: insets.bottom || 12 }]}>
         <Pressable style={styles.item} onPress={() => setActiveTab("home")}>
           <HomeIcon active={activeTab === "home"} />
         </Pressable>

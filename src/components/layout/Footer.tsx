@@ -3,7 +3,6 @@ import {
   View,
   Pressable,
   StyleSheet,
-  Dimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -17,11 +16,9 @@ import HomeScreen from "../../screens/main/HomeScreen";
 import MyCartScreen from "../../screens/main/MyCartScreen";
 import OrderHistoryScreen from "../../screens/main/OrderHistoryScreen";
 import ProfileScreen from "../../screens/main/ProfileScreen";
+import { base } from "../../theme/colors";
 
 type TabKey = "home" | "cart" | "orders" | "profile";
-
-const { width: deviceWidth } = Dimensions.get("window");
-const base = deviceWidth / 440;
 
 const Footer: React.FC = () => {
   const insets = useSafeAreaInsets();

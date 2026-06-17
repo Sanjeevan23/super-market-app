@@ -99,7 +99,7 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({
         )}
       </View>
 
-      <View style={[styles.whiteBody, { paddingBottom: insets.bottom }]}>{children}</View>
+      <View style={[styles.whiteBody, { paddingBottom: variant === "home" ? 0 : insets.bottom }]}>{children}</View>
     </View>
   );
 };

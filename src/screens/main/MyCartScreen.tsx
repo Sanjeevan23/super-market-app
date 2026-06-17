@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { ScreenLayout } from "../../components/layout/ScreenLayout";
 import { LocationIcon, MyCartIcon } from "../../assets/Icons";
 import { DeleteIcon, MinusIcon, PlusIcon } from "../../assets/Icons";
@@ -20,6 +21,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "../../components/layout/Button";
 import { useLang } from "../../context/LangContext";
+import AddressPickerModal from "../../components/layout/AddressPickerModal";
+import { SavedAddress, getAddresses, formatAddressShort } from "../../utils/addressStorage";
 
 const { width: deviceWidth } = Dimensions.get("window");
 const base = deviceWidth / 440;
@@ -36,14 +39,27 @@ const MyCartScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const { t } = useLang();
   const [items, setItems] = useState<CartItem[]>([]);
+  const [addresses, setAddresses] = useState<SavedAddress[]>([]);
+  const [selectedAddress, setSelectedAddress] = useState<SavedAddress | null>(null);
+  const [addressModalVisible, setAddressModalVisible] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      const data = await getCartItems();
-      setItems(data);
-    };
-    load();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const load = async () => {
+        const [cartData, addrData] = await Promise.all([getCartItems(), getAddresses()]);
+        setItems(cartData);
+        setAddresses(addrData);
+        setSelectedAddress((prev) => {
+          if (prev) {
+            const stillExists = addrData.find((a) => a.id === prev.id);
+            return stillExists ?? addrData[0] ?? null;
+          }
+          return addrData[0] ?? null;
+        });
+      };
+      load();
+    }, [])
+  );
 
   const subtotal = useMemo(() => {
     return items.reduce((sum, item) => sum + parsePrice(item.price) * item.qty, 0);
@@ -68,11 +84,13 @@ const MyCartScreen: React.FC = () => {
             <LocationIcon strokeColor="#07C187" backgroundColor="#07c1869a" />
             <View style={styles.addressTextWrap}>
               <Text style={styles.deliverTo}>{t("deliveredTo")}</Text>
-              <Text style={styles.addressText}>123 Main St, New York</Text>
+              <Text style={styles.addressText} numberOfLines={1}>
+                {selectedAddress ? formatAddressShort(selectedAddress) : "—"}
+              </Text>
             </View>
           </View>
 
-          <Pressable>
+          <Pressable onPress={() => setAddressModalVisible(true)}>
             <Text style={styles.changeText}>{t("change")}</Text>
           </Pressable>
         </View>
@@ -169,11 +187,21 @@ const MyCartScreen: React.FC = () => {
           />
         </View>
       </View>
+
+      <AddressPickerModal
+        visible={addressModalVisible}
+        addresses={addresses}
+        selectable
+        initialSelectedId={selectedAddress?.id}
+        onClose={() => setAddressModalVisible(false)}
+        onSelect={(addr) => setSelectedAddress(addr)}
+      />
     </ScreenLayout>
   );
 };
 
 export default MyCartScreen;
+
 const styles = StyleSheet.create({
   body: {
     flex: 1,
@@ -195,7 +223,7 @@ const styles = StyleSheet.create({
     gap: 4,
     flex: 1,
   },
-  addressTextWrap: {},
+  addressTextWrap: { flex: 1 },
   deliverTo: {
     fontSize: 9,
     fontWeight: "500",
@@ -225,7 +253,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E5E7EB",
     paddingBottom: 10,
     paddingHorizontal: 20 * base,
-
   },
   listRow: {
     flexDirection: "row",
@@ -248,7 +275,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 2,
-    padding:7
+    padding: 7,
   },
   brandName: {
     fontSize: 8,
@@ -306,7 +333,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "#E5E7EB",
     paddingTop: 15,
-    paddingBottom: 30,
     paddingHorizontal: 20 * base,
   },
   subtotalRow: {
@@ -327,7 +353,6 @@ const styles = StyleSheet.create({
   imageWrap: {
     position: "relative",
   },
-
   offerTag: {
     position: "absolute",
     top: 6,
@@ -337,7 +362,6 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 4,
   },
-
   offerTagText: {
     color: "#FFFFFF",
     fontSize: 10,
@@ -353,9 +377,9 @@ const styles = StyleSheet.create({
     color: "#72828A",
     marginTop: 19,
   },
-   noItemsSubText: {
+  noItemsSubText: {
     fontSize: 12,
     color: "#72828A",
-    marginTop:2,
+    marginTop: 2,
   },
 });

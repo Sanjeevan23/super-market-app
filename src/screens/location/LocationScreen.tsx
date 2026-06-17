@@ -20,7 +20,11 @@ const LocationScreen: React.FC = () => {
     const handleAllowLocation = async () => {
         const result = await requestLocation();
         if (result) {
-            navigation.reset({ index: 0, routes: [{ name: "Footer" }] });
+            navigation.navigate("AddLocationFormScreen", {
+                lat: String(result.latitude),
+                lon: String(result.longitude),
+                display_name: "",
+            });
         }
     };
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Dimensions, Pressable } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ScreenLayout } from "../../components/layout/ScreenLayout";
 import {
   AboutIcon,
@@ -15,14 +16,30 @@ import {
 } from "../../assets/Icons";
 import { LanguageSheet } from "../../components/ui/profile/LanguageSheet";
 import { useLang } from "../../context/LangContext";
+import AddressPickerModal from "../../components/layout/AddressPickerModal";
+import { SavedAddress, getAddresses, clearAddresses } from "../../utils/addressStorage";
 
 const { width: deviceWidth } = Dimensions.get("window");
 const base = deviceWidth / 440;
 
 const ProfileScreen: React.FC = () => {
+  const navigation = useNavigation<any>();
   const [languageOpen, setLanguageOpen] = useState(false);
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
+  const [addresses, setAddresses] = useState<SavedAddress[]>([]);
   const { t, lang } = useLang();
   const langNames: Record<string, string> = { en: t("englishUkTitle"), de: t("germanTitle"), fr: t("frenchTitle") };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getAddresses().then(setAddresses);
+    }, [])
+  );
+
+  const handleLogout = async () => {
+    await clearAddresses();
+    navigation.reset({ index: 0, routes: [{ name: "ChooseScreen" }] });
+  };
 
   return (
     <ScreenLayout variant="inner" title={t("profile")}>
@@ -43,7 +60,7 @@ const ProfileScreen: React.FC = () => {
           <View style={styles.detail_container}>
             <Text style={styles.Sectiontitle}>{t("savedLocations")}</Text>
 
-            <Pressable style={styles.row}>
+            <Pressable style={styles.row} onPress={() => setAddressModalOpen(true)}>
               <LocationPointIcon color="#72828A" />
               <Text style={styles.AddressText}>{t("address")}</Text>
             </Pressable>
@@ -92,7 +109,7 @@ const ProfileScreen: React.FC = () => {
               <Text style={styles.AddressText}>{t("termsOfService")}</Text>
             </Pressable>
 
-            <Pressable style={styles.row}>
+            <Pressable style={styles.row} onPress={handleLogout}>
               <LogoutIcon />
               <Text style={styles.DeleteText}>{t("logout")}</Text>
             </Pressable>
@@ -101,6 +118,13 @@ const ProfileScreen: React.FC = () => {
       </View>
 
       <LanguageSheet visible={languageOpen} onClose={() => setLanguageOpen(false)} />
+
+      <AddressPickerModal
+        visible={addressModalOpen}
+        addresses={addresses}
+        selectable={false}
+        onClose={() => setAddressModalOpen(false)}
+      />
     </ScreenLayout>
   );
 };

@@ -11,6 +11,7 @@ import RegisterScreen from "../screens/auth/RegisterScreen";
 import VerificationScreen from "../screens/auth/VerificationScreen";
 import LocationScreen from "../screens/location/LocationScreen";
 import Manual_LocationScreen from "../screens/location/Manual_LocationScreen";
+import AddLocationFormScreen from "../screens/location/AddLocationFormScreen";
 import LanguageScreen from "../screens/startup/LanguageScreen";
 import FlashScreen from "../screens/startup/FlashScreen";
 import ChooseScreen from "../screens/startup/ChooseScreen";
@@ -19,7 +20,7 @@ const Stack = createStackNavigator();
 
 export const StackNavigator: React.FC = () => {
   return (
-    <Stack.Navigator initialRouteName="LocationScreen">
+    <Stack.Navigator initialRouteName="Footer">
       <Stack.Screen
         name="FlashScreen"
         component={FlashScreen}
@@ -58,6 +59,11 @@ export const StackNavigator: React.FC = () => {
       <Stack.Screen
         name="Manual_LocationScreen"
         component={Manual_LocationScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddLocationFormScreen"
+        component={AddLocationFormScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
